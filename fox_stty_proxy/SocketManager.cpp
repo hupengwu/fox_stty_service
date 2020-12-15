@@ -24,7 +24,7 @@ bool SocketManager::bind(Settings& settings, FoxSttyDataManager& datas, FoxSttyS
 bool SocketManager::init()
 {
 	FoxSttyProxy* proxy = new FoxSttyProxy();
-	proxy->bind(*this->settings, *this->datas);
+	proxy->bind(*this->settings, *this->datas,*this->service);
 
 	FoxTcpServerSttyHandler* handler = new FoxTcpServerSttyHandler(proxy);
 	this->serverSocket.bindHandler(handler);
