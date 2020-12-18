@@ -40,10 +40,6 @@ void FoxTcpServerSttyHandler::handleRead(FoxSocketKey& key, const void* buff, in
 
     // 将数据块放入接收缓存，拼接成连续性数据
     this->buffs.appendBuff(key.getSocket(), buff, length);
-
-
-    // 将数据原样返回
-    key.send(buff, length);
 }
 
 void FoxTcpServerSttyHandler::handleHasRead(FoxSocketKey& key)

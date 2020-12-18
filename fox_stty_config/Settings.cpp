@@ -66,6 +66,12 @@ void Settings::fromJSon(const string& json)
 
 }
 
+string	Settings::dispatch(const string& method, const string& resource, const string& body) 
+{
+	string json = this->toJSon();
+	return json;
+}
+
 int Settings::getServicePort()
 {
 	return this->service_port;

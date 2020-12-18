@@ -114,7 +114,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <AdditionalLibraryDirectories>$(RemoteRootDir)/bin/$(Platform)/$(Configuration);-Wl,--rpath=$(RemoteRootDir)/bin/$(Platform)/$(Configuration);%(Link.AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LibraryDependencies>FoxLogger;STLUtils;FoxStty;FoxSocket;FoxJSon;fox_stty_config;fox_stty_data</LibraryDependencies>
+      <LibraryDependencies>FoxLogger;STLUtils;FoxStty;FoxSocket;FoxJSon;fox_stty_config;fox_stty_data;fox_stty_service</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

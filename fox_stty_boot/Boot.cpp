@@ -21,7 +21,7 @@ bool Boot::start()
 	this->services.init();
 
 	// <4> 初始化对外服务
-	this->server.bind(this->settings, this->datas);
+	this->server.bind(this->settings, this->datas, this->services);
 	this->server.init();
 
 

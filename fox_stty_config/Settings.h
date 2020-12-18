@@ -19,6 +19,8 @@ public:
 	string toJSon();
 	void   fromJSon(const string& json);
 
+	string	dispatch(const string& method, const string& resource, const string& body);
+
 public:
 	int getServicePort();
 

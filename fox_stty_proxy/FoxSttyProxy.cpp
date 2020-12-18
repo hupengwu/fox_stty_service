@@ -52,47 +52,18 @@ string FoxSttyProxy::doJson(string& json)
 
 string FoxSttyProxy::dispatch(const string& method, const string& resource, const string& body)
 {
-	if (resource == "\fox_stty_service\settings")
+	if (resource == "\\fox_stty_service\\settings")
 	{
-		if (method == "GET")
-		{
-			return this->onGetSettings(body);
-		}
+		return this->settings->dispatch(method, resource, body);
 	}
-	else if (resource == "\fox_stty_service\datas")
+	else if (resource == "\\fox_stty_service\\datas")
 	{
-		if (method == "GET")
-		{
-			return this->onGetDatas(body);
-		}
+		return this->datas->dispatch(method, resource, body);
 	}
-	else if (resource == "\fox_stty_service\services")
+	else if (resource == "\\fox_stty_service\\services")
 	{
-		if (method == "POST")
-		{
-			return this->onSendData(body);
-		}
+		return this->service->dispatch(method, resource,body);
 	}
 
 	return "not find on method!";
-}
-
-string FoxSttyProxy::onGetSettings(const string& body)
-{
-	string json = this->settings->toJSon();
-	return json;
-}
-
-string FoxSttyProxy::onGetDatas(const string& body)
-{
-	string json;
-	this->datas->makeItem2JSon(json);
-	return json;
-}
-
-string FoxSttyProxy::onSendData(const string& body)
-{
-	string jsn = "{" + body + "}";
-//	this->service;
-	return string();
 }

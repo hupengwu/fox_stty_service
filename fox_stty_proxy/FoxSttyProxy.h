@@ -30,11 +30,6 @@ private:
 	virtual string dispatch(const string& method, const string& resource, const string& body);
 
 private:
-	virtual string onGetSettings(const string& body);
-	virtual string onGetDatas(const string& body);
-	virtual string onSendData(const string& body);
-
-private:
 	Settings*			settings;
 	FoxSttyDataManager* datas;
 	FoxSttyService*		service;

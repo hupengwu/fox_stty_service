@@ -1,8 +1,10 @@
 #include "FoxSttyService.h"
 #include "FoxSttyRecvHandler.h"
+#include "FoxSttySendRunnable.h"
 
 #include <FoxIteratorGetStty.h>
 #include <FoxLoggerFactory.h>
+#include <FoxJSonObject.h>
 
 
 ILogger* FoxSttyService::logger = FoxLoggerFactory::getLogger();
@@ -41,7 +43,7 @@ bool FoxSttyService::init()
 		{
 			// 因为这个value是指针，所以实际上直接操作的是属性
 			stty = new FoxStty();
-			stty->bindHandler(new FoxSttyRecvHandler());
+			stty->bindHandler(new FoxSttyRecvHandler(&this->tasks));
 			value->setStty(stty);
 		}
 
@@ -70,12 +72,18 @@ bool FoxSttyService::init()
 		logger->info("open stty sucess = %s", key.c_str());
 	}
 
+	// 分配线程池
+	this->threads.create(3);
+
 	logger->info("init service sucess!");
 	return true;
 }
 
 bool FoxSttyService::exit()
 {
+	// 关闭线程池
+	this->threads.close();
+
 	STLKVMapper<string, FoxSttyItem*>& kvmapper = this->dataMgr->getKVMapper();
 
 	set<string> keys;
@@ -111,6 +119,65 @@ bool FoxSttyService::exit()
 
 	logger->info("exit service sucess!");
 	return true;
+}
+
+FoxSttyTaskList& FoxSttyService::getTasks()
+{
+	return this->tasks;
+}
+
+string FoxSttyService::toJson(const AsyncTask& task)
+{
+	FoxJSonObject oJsn;
+	oJsn.Add("id", task.id);
+	oJsn.Add("request", task.request);
+	oJsn.Add("respond", task.respond);
+	oJsn.Add("request", task.request);
+	oJsn.Add("status", task.status);
+	oJsn.Add("request_time", (uint64)task.requestTime);
+	oJsn.Add("respond_time", (uint64)task.respondTime);
+	oJsn.Add("life_cycle", (uint64)task.lifeCycle);
+
+	return oJsn.ToFormattedString();
+}
+
+string FoxSttyService::dispatch(const string& method, const string& resource, const string& body)
+{
+	FoxJSonObject oJson;
+	if (!oJson.Parse(body))
+	{
+		return "json format error!";
+	}
+
+	string name;
+	if (!oJson.Get("name", name))
+	{
+		return "not find name attrity";
+	}
+
+	string data;
+	if (!oJson.Get("data", data))
+	{
+		return "not find data attrity";
+	}
+
+	int time_out;
+	if (!oJson.Get("time_out", time_out))
+	{
+		return "not find time_out attrity";
+	}
+
+	// 记录任务
+	AsyncTask task;
+	task.request = body;
+	tasks.pushTask(task);	
+	this->tasks.processTask(task);
+
+	// 将任务提交给异步任务去处理
+	FoxSttySendRunnable* runnable = new FoxSttySendRunnable(this->dataMgr, &this->tasks,task);
+	this->threads.execute(runnable);
+
+	return this->toJson(task);
 }
 
 bool FoxSttyService::sendData(const string& name, const STLByteArray& sendData, const long& timeOut, const bool& syncMode, STLByteArray& recvData)
