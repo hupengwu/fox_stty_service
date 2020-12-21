@@ -78,11 +78,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..\..\fox_project\UUIDUtils;..\UUIDUtils;..\FoxLogger;..\..\fox_project\FoxLogger;..\FoxFile;..\..\fox_project\FoxFile;..\FoxJSon;..\..\fox_project\FoxJSon;..\STLUtils;..\..\fox_project\STLUtils;..\FoxStty;..\..\fox_project\FoxStty;..\FoxDef;..\..\fox_project\FoxDef;..\fox_stty_data</IncludePath>
+    <IncludePath>..\..\fox_project\FoxRestful;..\FoxRestful;..\..\fox_project\UUIDUtils;..\UUIDUtils;..\FoxLogger;..\..\fox_project\FoxLogger;..\FoxFile;..\..\fox_project\FoxFile;..\FoxJSon;..\..\fox_project\FoxJSon;..\STLUtils;..\..\fox_project\STLUtils;..\FoxStty;..\..\fox_project\FoxStty;..\FoxDef;..\..\fox_project\FoxDef;..\fox_stty_data</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\fox_project\FoxJSon\FoxJSon.vcxproj">
       <Project>{445e0c6f-4cb3-4210-b160-17c12b0acb18}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\fox_project\FoxRestful\FoxRestful.vcxproj">
+      <Project>{5a1de6d1-17f7-4a42-b8ce-b3f865ecd0c8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\fox_project\UUIDUtils\UUIDUtils.vcxproj">
       <Project>{a6422947-9285-4dee-95ee-a3c8b2d8f427}</Project>
@@ -95,21 +98,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FoxServiceResponder.h" />
     <ClInclude Include="FoxSttyRecvHandler.h" />
     <ClInclude Include="FoxSttyService.h" />
     <ClInclude Include="FoxSttySendRunnable.h" />
-    <ClInclude Include="FoxSttyTaskList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FoxServiceResponder.cpp" />
     <ClCompile Include="FoxSttyRecvHandler.cpp" />
     <ClCompile Include="FoxSttyService.cpp" />
     <ClCompile Include="FoxSttySendRunnable.cpp" />
-    <ClCompile Include="FoxSttyTaskList.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <AdditionalLibraryDirectories>$(RemoteRootDir)/bin/$(Platform)/$(Configuration);-Wl,--rpath=$(RemoteRootDir)/bin/$(Platform)/$(Configuration);%(Link.AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LibraryDependencies>FoxLogger;STLUtils;UUIDUtils;FoxJSon;FoxStty;fox_stty_config;fox_stty_data</LibraryDependencies>
+      <LibraryDependencies>FoxRestful;FoxLogger;STLUtils;UUIDUtils;FoxJSon;FoxStty;fox_stty_config;fox_stty_data</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

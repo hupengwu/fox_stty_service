@@ -3,12 +3,12 @@
 #include <FoxSttyHandler.h>
 #include <STLFIFOBuffers.h>
 #include <ILogger.h>
-#include "FoxSttyTaskList.h"
+#include <FoxRestfulAsyncTasks.h>
 
 class FoxSttyRecvHandler : public FoxSttyHandler
 {
 public:
-	FoxSttyRecvHandler(FoxSttyTaskList* tasks);
+	FoxSttyRecvHandler(FoxRestfulAsyncTasks* tasks);
 	virtual ~FoxSttyRecvHandler();
 
 public:
@@ -25,7 +25,7 @@ private:
 	* 串口接收缓存：将串口一个个字节接收过来的数据，组成连续性的数据
 	*/
 	STLFIFOBuffers		buffers;
-	FoxSttyTaskList*	tasks;
+	FoxRestfulAsyncTasks*	tasks;
 
 	static ILogger*		logger;
 };

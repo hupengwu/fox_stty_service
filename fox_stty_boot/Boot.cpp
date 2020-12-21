@@ -1,4 +1,7 @@
 #include "Boot.h"
+#include <FoxSettingsResponder.h>
+#include <FoxDatasResponder.h>
+#include <FoxServiceResponder.h>
 
 Boot::Boot()
 {
@@ -17,14 +20,29 @@ bool Boot::start()
 	this->datas.init();
 
 	// <3> 初始化业务对象
-	this->services.bind(this->datas);
+	this->services.bind(this->datas, this->tasks);
 	this->services.init();
 
 	// <4> 初始化对外服务
-	this->server.bind(this->settings, this->datas, this->services);
+	this->registResponder();
+	this->threads.create(5);
+	this->server.bind(this->settings, this->datas,this->mapper);
 	this->server.init();
 
 
-
 	return true;
+}
+
+bool Boot::close()
+{
+	this->threads.close();
+	return true;
+}
+
+void Boot::registResponder()
+{
+	this->mapper.regist("\\fox_stty_service\\settings", "GET", new FoxSettingsResponder(&this->settings));
+	this->mapper.regist("\\fox_stty_service\\datas", "GET", new FoxDatasResponder(&this->datas));
+	this->mapper.regist("\\fox_stty_service\\services", "POST", new FoxServiceResponder(&this->services,&this->tasks, &this->datas,&this->threads));
+	this->mapper.regist("\\fox_stty_service\\services", "GET", new FoxServiceResponder(&this->services, &this->tasks, &this->datas, &this->threads));
 }

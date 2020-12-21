@@ -78,12 +78,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..\FoxLogger;..\..\fox_project\FoxLogger;..\FoxFile;..\..\fox_project\FoxFile;..\FoxJSon;..\..\fox_project\FoxJSon</IncludePath>
+    <IncludePath>..\FoxRestful;..\..\fox_project\FoxRestful;..\FoxLogger;..\..\fox_project\FoxLogger;..\FoxFile;..\..\fox_project\FoxFile;..\FoxJSon;..\..\fox_project\FoxJSon</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClInclude Include="FoxSettingsResponder.h" />
     <ClInclude Include="Settings.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FoxSettingsResponder.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +105,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <AdditionalLibraryDirectories>$(RemoteRootDir)/bin/$(Platform)/$(Configuration);-Wl,--rpath=$(RemoteRootDir)/bin/$(Platform)/$(Configuration);%(Link.AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <LibraryDependencies>FoxLogger;FoxFile;FoxJSon</LibraryDependencies>
+      <LibraryDependencies>FoxRestful;FoxLogger;FoxFile;FoxJSon</LibraryDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

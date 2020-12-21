@@ -2,9 +2,9 @@
 #include <FoxJSonObject.h>
 #include <STLStringUtils.h>
 
-FoxSttySendRunnable::FoxSttySendRunnable(FoxSttyDataManager* dataMgr, FoxSttyTaskList* tasks, AsyncTask& task)
+FoxSttySendRunnable::FoxSttySendRunnable(FoxSttyDataManager* datas, FoxRestfulAsyncTasks* tasks, FoxRestfulAsyncTask& task)
 {
-	this->dataMgr = dataMgr;
+	this->datas = datas;
 	this->task = task;
 	this->tasks = tasks;
 }
@@ -52,7 +52,7 @@ bool FoxSttySendRunnable::sendData()
 	}
 
 
-	STLKVMapper<string, FoxSttyItem*>& kvmapper = this->dataMgr->getKVMapper();
+	STLKVMapper<string, FoxSttyItem*>& kvmapper = this->datas->getKVMapper();
 
 	FoxSttyItem* value = nullptr;
 	if (!kvmapper.get(name, value))
@@ -67,16 +67,13 @@ bool FoxSttySendRunnable::sendData()
 	}
 
 	// 设置最大接收超时
-	stty->setRcvTimeOut(time_out * 1000);
+	stty->setRcvTimeOut(time_out);
 
 	int length = 0;
 	if (!stty->sendData((const char*)sendData.getData(), sendData.getSize(), length))
 	{
 		return false;
 	}
-
-	// 更新任务状态
-	this->tasks->finishTask(task);
 
 	return true;
 }

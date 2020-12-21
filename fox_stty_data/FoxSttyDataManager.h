@@ -23,14 +23,12 @@ public:
 	bool	makeItem2JSon(string& jsnTxt);
 	bool	makeJSonItem(const string& jsnTxt, list<FoxSttyItem*>& sttyItemList);
 
-	string	dispatch(const string& method, const string& resource, const string& body);
-
 public:
-	STLKVMapper<string, FoxSttyItem*>& getKVMapper();
+	STLKVMapper<string, FoxSttyItem*>&	getKVMapper();
 
 private:
-	STLKVMapper<string, FoxSttyItem*> kvmapper;
-	static	ILogger*				  logger;
+	STLKVMapper<string, FoxSttyItem*>	kvmapper;
+	static	ILogger*					logger;
 	
 };
 

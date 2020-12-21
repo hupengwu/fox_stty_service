@@ -4,7 +4,7 @@
 #include <ILogger.h>
 #include <STLAsyncTask.h>
 
-#include "FoxSttyTaskList.h"
+#include <FoxRestfulAsyncTasks.h>
 
 class FoxSttyService
 {
@@ -13,24 +13,16 @@ public:
 	virtual ~FoxSttyService();
 
 public:
-	void bind(FoxSttyDataManager& dataMgr);
+	void bind(FoxSttyDataManager& datas, FoxRestfulAsyncTasks& tasks);
 	bool init();
 	bool exit();
 
 public:
-	string dispatch(const string& method, const string& resource, const string& body);
+	FoxRestfulAsyncTasks& getTasks();
 
 private:
-	FoxSttyTaskList& getTasks();
-	string toJson(const AsyncTask& task);
-
-public:
-	bool sendData(const string& name, const STLByteArray& sendData, const long& timeOut, const bool& syncMode, STLByteArray& recvData);
-
-private:
-	static ILogger*		logger;
-	FoxSttyDataManager* dataMgr;
-	FoxSttyTaskList		tasks;
-	STLAsyncTask		threads;
+	static ILogger*			logger;
+	FoxSttyDataManager*		datas;
+	FoxRestfulAsyncTasks*	tasks;
 };
 

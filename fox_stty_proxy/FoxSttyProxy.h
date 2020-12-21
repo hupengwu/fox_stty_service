@@ -5,6 +5,7 @@
 #include <FoxSttyDataManager.h>
 #include <FoxSttyService.h>
 #include "IFoxSttyProxy.h"
+#include <FoxRestfulResponderMapper.h>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ public:
 	virtual ~FoxSttyProxy();
 
 public:
-	void bind(Settings& settings, FoxSttyDataManager& datas, FoxSttyService& service);
+	void bind(Settings& settings, FoxRestfulResponderMapper& mapper);
 
 public:
 	/*
@@ -24,14 +25,8 @@ public:
 	virtual string doJson(string& json);
 
 private:
-	/*
-	* ∑÷≈…«Î«Û
-	*/
-	virtual string dispatch(const string& method, const string& resource, const string& body);
-
-private:
-	Settings*			settings;
-	FoxSttyDataManager* datas;
-	FoxSttyService*		service;
+	Settings*					settings;
+	FoxRestfulResponderMapper*	mapper;
+	
 };
 

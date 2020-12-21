@@ -201,12 +201,6 @@ bool FoxSttyDataManager::makeJSonItem(const string& jsnTxt, list<FoxSttyItem*>& 
 	return true;
 }
 
-string FoxSttyDataManager::dispatch(const string& method, const string& resource, const string& body)
-{
-	string json;
-	this->makeItem2JSon(json);
-	return json;
-}
 
 STLKVMapper<string, FoxSttyItem*>& FoxSttyDataManager::getKVMapper()
 {

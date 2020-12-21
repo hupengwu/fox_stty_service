@@ -78,7 +78,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>..\FoxLogger;..\..\fox_project\FoxLogger;..\FoxFile;..\..\fox_project\FoxFile;..\FoxJSon;..\..\fox_project\FoxJSon;..\STLUtils;..\..\fox_project\STLUtils;..\FoxStty;..\..\fox_project\FoxStty;..\FoxDef;..\..\fox_project\FoxDef</IncludePath>
+    <IncludePath>..\FoxRestful;..\..\fox_project\FoxRestful;..\FoxLogger;..\..\fox_project\FoxLogger;..\FoxFile;..\..\fox_project\FoxFile;..\FoxJSon;..\..\fox_project\FoxJSon;..\STLUtils;..\..\fox_project\STLUtils;..\FoxStty;..\..\fox_project\FoxStty;..\FoxDef;..\..\fox_project\FoxDef</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\fox_project\FoxDef\FoxDef.vcxproj">
@@ -98,17 +98,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FoxDatasResponder.h" />
     <ClInclude Include="FoxSttyDataManager.h" />
     <ClInclude Include="FoxIteratorGetStty.h" />
     <ClInclude Include="FoxSttyItem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FoxDatasResponder.cpp" />
     <ClCompile Include="FoxSttyDataManager.cpp" />
     <ClCompile Include="FoxSttyItem.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <LibraryDependencies>FoxLogger;FoxFile;FoxJSon;STLUtils;FoxStty</LibraryDependencies>
+      <LibraryDependencies>FoxRestful;FoxLogger;FoxFile;FoxJSon;STLUtils;FoxStty</LibraryDependencies>
       <AdditionalLibraryDirectories>$(RemoteRootDir)/bin/$(Platform)/$(Configuration);-Wl,--rpath=$(RemoteRootDir)/bin/$(Platform)/$(Configuration);%(Link.AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

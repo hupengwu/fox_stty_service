@@ -4,6 +4,7 @@
 #include <Settings.h>
 #include <FoxSttyDataManager.h>
 #include <FoxSttyService.h>
+#include <FoxRestfulResponderMapper.h>
 
 class SocketManager
 {
@@ -12,15 +13,15 @@ public:
 	virtual ~SocketManager();
 
 public:
-	bool bind(Settings& settings, FoxSttyDataManager& datas, FoxSttyService& service);
+	bool bind(Settings& settings, FoxSttyDataManager& datas, FoxRestfulResponderMapper& mapper);
 	bool init();
 	bool exit();
 
 private:
 	FoxTcpServerSocket	serverSocket;
-	Settings*			settings;
+	Settings* settings;
+	FoxRestfulResponderMapper* mapper;
 	FoxSttyDataManager* datas;
-	FoxSttyService*		service;
 	static ILogger*		logger;
 };
 

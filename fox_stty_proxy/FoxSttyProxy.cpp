@@ -10,60 +10,47 @@ FoxSttyProxy::~FoxSttyProxy()
 {
 }
 
-void FoxSttyProxy::bind(Settings& settings, FoxSttyDataManager& datas, FoxSttyService& service)
+void FoxSttyProxy::bind(Settings& settings,  FoxRestfulResponderMapper& mapper)
 {
 	this->settings = &settings;
-	this->datas = &datas;
-	this->service = &service;
+	this->mapper = &mapper;
 }
 
 string FoxSttyProxy::doJson(string& json)
 {
-	FoxJSonObject oJson;
-	if (!oJson.Parse(json))
+	FoxJSonObject jsnRecv;
+	if (!jsnRecv.Parse(json))
 	{
 		return "json format error!";
 	}
 
 	string method;
-	if (!oJson.Get("method", method))
+	if (!jsnRecv.Get("method", method))
 	{
-		return "not find method attrity";
+		return "not find method attributes";
 	}
 
 	string resource;
-	if (!oJson.Get("resource", resource))
+	if (!jsnRecv.Get("resource", resource))
 	{
-		return "not find resource attrity";
+		return "not find resource attributes";
 	}
 
 	string body;
-	if (!oJson.Get("body", body))
+	if (!jsnRecv.Get("body", body))
 	{
-		return "not find body attrity";
+		return "not find body attributes";
 	}
 
 	std::transform(method.begin(), method.end(), method.begin(), ::toupper);
 
-	oJson.Clear();
+	FoxRestfulResponder* responder = this->mapper->getResponder(resource, method);
+	if (responder == nullptr)
+	{
+		return "not find responder for resource and method!";
+	}
 
-	return this->dispatch(method, resource, body);
+	return responder->respond(resource, method,body);
 }
 
-string FoxSttyProxy::dispatch(const string& method, const string& resource, const string& body)
-{
-	if (resource == "\\fox_stty_service\\settings")
-	{
-		return this->settings->dispatch(method, resource, body);
-	}
-	else if (resource == "\\fox_stty_service\\datas")
-	{
-		return this->datas->dispatch(method, resource, body);
-	}
-	else if (resource == "\\fox_stty_service\\services")
-	{
-		return this->service->dispatch(method, resource,body);
-	}
 
-	return "not find on method!";
-}

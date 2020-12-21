@@ -2,13 +2,13 @@
 
 #include <STLRunnable.h>
 #include <FoxSttyDataManager.h>
-#include "FoxSttyTaskList.h"
+#include <FoxRestfulAsyncTasks.h>
 
 
 class FoxSttySendRunnable : public STLRunnable
 {
 public:
-	FoxSttySendRunnable(FoxSttyDataManager* dataMgr, FoxSttyTaskList* tasks,AsyncTask& task);
+	FoxSttySendRunnable(FoxSttyDataManager* datas, FoxRestfulAsyncTasks* tasks,FoxRestfulAsyncTask& task);
 	~FoxSttySendRunnable();
 
 public:// Ðéº¯Êý½Ó¿Ú
@@ -18,8 +18,8 @@ private:
 	bool sendData();
 
 private:
-	AsyncTask			task;
-	FoxSttyDataManager* dataMgr;
-	FoxSttyTaskList*	tasks;
+	FoxRestfulAsyncTask			task;
+	FoxSttyDataManager*			datas;
+	FoxRestfulAsyncTasks*		tasks;
 };
 
