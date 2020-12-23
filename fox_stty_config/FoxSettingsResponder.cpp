@@ -12,5 +12,19 @@ FoxSettingsResponder::~FoxSettingsResponder()
 
 std::string FoxSettingsResponder::respond(const string& resource, const string& method, const string& body)
 {
-	return this->settings->toJSon();
+	if (method == "GET")
+	{
+		return this->settings->toJSon();
+	}
+	if (method == "PUT")
+	{
+		if (this->settings->fromJSon(body))
+		{
+			this->settings->save();
+		}
+
+		return this->settings->toJSon();
+	}
+	
+	return "";
 }

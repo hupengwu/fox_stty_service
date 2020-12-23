@@ -52,7 +52,7 @@ bool FoxSttyDataManager::load()
 
 	// <2> 将Json转换成对象
 	list<FoxSttyItem*> sttyItemList;	
-	this->makeJSonItem(jsonLoad, sttyItemList);
+	this->makeJSon2Item(jsonLoad, sttyItemList);
 
 	// <3> 至少要有一个对象
 	if (sttyItemList.empty())
@@ -64,7 +64,7 @@ bool FoxSttyDataManager::load()
 
 	// <2> 重新生成字标准化的符串
 	string jsonSave;
-	this->makeItem2JSon(sttyItemList, jsonSave);
+	this->makeItem2JSon(sttyItemList, jsonSave,true);
 
 	// <3> 验证：存档文件内容是否为格式化
 	if (jsonSave != jsonLoad)
@@ -88,11 +88,11 @@ bool FoxSttyDataManager::save()
 {
 	// 保存数据
 	string jsonTxt;
-	this->makeItem2JSon(jsonTxt);
+	this->makeItem2JSon(jsonTxt,true);
 	return FoxFile::writeTextFile("./data.jsn", jsonTxt);
 }
 
-bool FoxSttyDataManager::makeItem2JSon(const list<FoxSttyItem*>& sttyItemList, string& jsnTxt)
+bool FoxSttyDataManager::makeItem2JSon(const list<FoxSttyItem*>& sttyItemList, string& jsnTxt, bool onlySettings)
 {
 	FoxJSonObject oJson;
 	oJson.AddEmptySubArray("datas");
@@ -129,6 +129,22 @@ bool FoxSttyDataManager::makeItem2JSon(const list<FoxSttyItem*>& sttyItemList, s
 		default:
 			break;
 		}
+
+		if (onlySettings)
+		{
+			continue;
+		}
+
+		FoxStty* stty = item->getStty();
+		if (stty == nullptr)
+		{
+			oJsonSettings.AddNull("stty_open");
+		}
+		else
+		{
+			oJsonSettings.Add("stty_open", stty->isOpen());
+		}
+
 		datas.Add(oJsonSettings);
 	}
 
@@ -136,18 +152,18 @@ bool FoxSttyDataManager::makeItem2JSon(const list<FoxSttyItem*>& sttyItemList, s
 	return true;
 }
 
-bool FoxSttyDataManager::makeItem2JSon(string& jsnTxt)
+bool FoxSttyDataManager::makeItem2JSon(string& jsnTxt, bool onlySettings)
 {
 	// 提取数据
 	FoxIteratorSttyGetConfig iterator;
 	this->kvmapper.foreach(iterator);
 
 	// 保存数据
-	this->makeItem2JSon(iterator.itemList, jsnTxt);
+	this->makeItem2JSon(iterator.itemList, jsnTxt, onlySettings);
 	return true;
 }
 
-bool FoxSttyDataManager::makeJSonItem(const string& jsnTxt, list<FoxSttyItem*>& sttyItemList)
+bool FoxSttyDataManager::makeJSon2Item(const string& jsnTxt, list<FoxSttyItem*>& sttyItemList)
 {
 	FoxJSonObject oJson;
 	if (!oJson.Parse(jsnTxt))

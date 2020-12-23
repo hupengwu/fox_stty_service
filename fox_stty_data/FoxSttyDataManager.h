@@ -19,9 +19,9 @@ public:
 	bool	load();
 	bool	save();
 
-	bool	makeItem2JSon(const list<FoxSttyItem*>& sttyItemList, string& jsnTxt);
-	bool	makeItem2JSon(string& jsnTxt);
-	bool	makeJSonItem(const string& jsnTxt, list<FoxSttyItem*>& sttyItemList);
+	bool	makeItem2JSon(const list<FoxSttyItem*>& sttyItemList, string& jsnTxt,bool onlySettings);
+	bool	makeItem2JSon(string& jsnTxt, bool onlySettings);
+	bool	makeJSon2Item(const string& jsnTxt, list<FoxSttyItem*>& sttyItemList);
 
 public:
 	STLKVMapper<string, FoxSttyItem*>&	getKVMapper();

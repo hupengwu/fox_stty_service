@@ -17,7 +17,7 @@ public:
 
 public:
 	string toJSon();
-	void   fromJSon(const string& json);
+	bool   fromJSon(const string& json);
 
 public:
 	int getServicePort();

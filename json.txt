@@ -1,0 +1,82 @@
+----------------
+// 查询全局配置
+{
+	"method": "GET",
+	"resource": "\\fox_stty_service\\settings",
+	"body": ""
+}
+//返回
+{
+	"settings":	{
+		"service_port":	5100
+	}
+}
+----------------
+// 设置全局配置
+{
+	"method": "PUT",
+	"resource": "\\fox_stty_service\\settings",
+	"body": "{\"settings\"\:\{\"service_port\"\:5100\}}"
+}
+//返回
+{
+	"settings":	{
+		"service_port":	5100
+	}
+}
+----------------
+// 查询所有数据
+{
+	"method": "GET",
+	"resource": "\\fox_stty_service\\datas",
+	"body": ""
+}
+//返回
+{
+	"datas":	[{
+			"name":	"ttyS1",
+			"speed":	9600,
+			"databits":	8,
+			"stopbits":	1,
+			"recv_timeout":	1000000,
+			"stty_open":	true
+		}]
+}
+
+-------------
+// 发送串口请求
+{
+	"method":	"POST",
+	"resource":	"\\fox_stty_service\\services",
+	"body":	"{\n\t\"name\":\t\"ttyS1\",\n\t\"data\":\t\"FF050E031BFE00\",\n\t\"time_out\":\t1000000,\n\t\"life_cycle\":\t60,\n\t\"sync_mode\":\t1\n}"
+}
+返回
+{
+	"task_id":	"bd9dca04-a2db-44d9-a86e-69652b29f287",
+	"object_id":	"ttyS1",
+	"request":	"{\n\t\"name\":\t\"ttyS1\",\n\t\"data\":\t\"FF050E031BFE00\",\n\t\"time_out\":\t1000000,\n\t\"sync_mode\":\t1\n}",
+	"respond":	"",
+	"status":	"donging",
+	"request_time":	1608175469,
+	"respond_time":	0,
+	"life_cycle":	1000000
+}
+
+-------------
+// 查询串口返回结果
+{
+	"method":	"GET",
+	"resource":	"\\fox_stty_service\\services",
+	"body":	"{\n\t\"task_id\":\t\"bd9dca04-a2db-44d9-a86e-69652b29f287\",\n\t\"data\":\t\"FF050E031BFE00\",\n\t\"time_out\":\t1000000,\n\t\"sync_mode\":\t1\n}"
+}
+返回
+{
+	"task_id":	"bd9dca04-a2db-44d9-a86e-69652b29f287",
+	"object_id":	"ttyS1",
+	"request":	"{\n\t\"name\":\t\"ttyS1\",\n\t\"data\":\t\"FF050E031BFE00\",\n\t\"time_out\":\t1000000,\n\t\"life_cycle\":\t60,\n\t\"sync_mode\":\t1\n}",
+	"respond":	"507554545900",
+	"status":	"finish",
+	"request_time":	1608182551,
+	"respond_time":	1608182552,
+	"life_cycle":	60
+}

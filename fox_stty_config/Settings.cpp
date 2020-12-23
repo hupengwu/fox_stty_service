@@ -56,16 +56,20 @@ string Settings::toJSon()
 	return oJson.ToFormattedString();
 }
 
-void Settings::fromJSon(const string& json)
+bool Settings::fromJSon(const string& json)
 {
 	FoxJSonObject oJson;
-	oJson.Parse(json);
+	if (!oJson.Parse(json))
+	{
+		return false;
+	}
 
 	if (!oJson["settings"].Get("service_port", this->service_port))
 	{
 		this->service_port = 5100;
 	}
 
+	return true;
 }
 
 

@@ -42,6 +42,7 @@ bool Boot::close()
 void Boot::registResponder()
 {
 	this->mapper.regist("\\fox_stty_service\\settings", "GET", new FoxSettingsResponder(&this->settings));
+	this->mapper.regist("\\fox_stty_service\\settings", "PUT", new FoxSettingsResponder(&this->settings));
 	this->mapper.regist("\\fox_stty_service\\datas", "GET", new FoxDatasResponder(&this->datas));
 	this->mapper.regist("\\fox_stty_service\\services", "POST", new FoxServiceResponder(&this->services,&this->tasks, &this->datas,&this->threads));
 	this->mapper.regist("\\fox_stty_service\\services", "GET", new FoxServiceResponder(&this->services, &this->tasks, &this->datas, &this->threads));
